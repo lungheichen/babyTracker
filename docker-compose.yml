@@ -1,13 +1,13 @@
-version: "3.8"
+version: '3.9'
+
 services:
-  mongodb:
-  image : mongo
-  container_name: mongodb
-  environment:
-  - PUID=1000
-  - PGID=1000
-  volumes:
-  - /home/barry/mongodb/database:/data/db
-  ports:
-  - 27017:27017
-  restart: unless-stopped
+  prod:
+    image: phosphorgus/bt-prod
+    container_name: baby_tracker
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - .:/src
+    command: npm start
+    ports:
+      - "80:3000"
