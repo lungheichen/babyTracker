@@ -12,6 +12,7 @@ interface IOptions {
   dbName?: string
 }
 
+// mongoose.connect('mongodb://username:password@host:port/database?options...');
 let uri: string
 const options: IOptions = {}
 if (process.env.NODE_ENV === 'production') {
@@ -22,7 +23,11 @@ if (process.env.NODE_ENV === 'production') {
   // options.port = process.env.DB_PORT
   uri = `mongodb+srv://${options.user}:${options.pass}@cluster0.vsohc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 } else if (process.env.NODE_ENV === 'development') {
-  uri = 'mongodb://localhost/babyTracker'
+  options.user = process.env.DB_USER
+  options.pass = process.env.DB_PASS
+  options.dbName = process.env.DB_NAME
+  // uri = 'mongodb://btadmin:admin@baby_tracker-db:27017/babytracker?authSource=admin'
+  uri = 'mongodb://btadmin:admin@db:27017/babytracker?authSource=admin'
 }
 
 export interface ILog extends Document {

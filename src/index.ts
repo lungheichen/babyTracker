@@ -17,7 +17,7 @@ const app: Express = express()
 app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('hello, this has nothing haha...')
+  res.send('hello, this has nothing haha...haaa')
 })
 
 app.use('/logs', logRouter)

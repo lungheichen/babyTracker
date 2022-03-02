@@ -2,28 +2,32 @@ version: '3.9'
 
 services:
   dev:
-    image: phosphorgus/bt-dev
-    container_name: baby_tracker-dev
     depends_on: 
       - db
-    build:
-      context: .
+    image: phosphorgus/bt-dev
+    container_name: baby_tracker-dev
     ports:
       - 80:3000
     environment:
-      - SERVER_PORT=8000
-      - CONNECTIONSTRING=mongodb://mongo:27017/notes
+      - NODE_ENV=development
     volumes:
-      - ./:/app
-    command: npm run debug
+      - .:/app
+      - node_modules:/app/node_modules
+    command: npm run dev
   db:
     image: phosphorgus/bt-db
     container_name: baby_tracker-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
     ports:
       - 27017:27017
     volumes:
       - mongodb:/data/db
       - mongodb_config:/data/configdb
+      
 volumes:
+  node_modules:
   mongodb:
   mongodb_config:
