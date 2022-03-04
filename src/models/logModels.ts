@@ -28,6 +28,13 @@ if (process.env.NODE_ENV === 'production') {
   options.dbName = process.env.DB_NAME
   // uri = 'mongodb://btadmin:admin@baby_tracker-db:27017/babytracker?authSource=admin'
   uri = 'mongodb://btadmin:admin@db:27017/babytracker?authSource=admin'
+} else if (process.env.NODE_ENV === 'devlocal') {
+  // this is for non-containerized local development
+  // options.user = process.env.DB_USER
+  // options.pass = process.env.DB_PASS
+  // options.dbName = process.env.DB_NAME
+  // uri = 'mongodb://btadmin:admin@baby_tracker-db:27017/babytracker?authSource=admin'
+  uri = 'mongodb://btadmin:admin@localhost:27017/babytracker?authSource=admin' 
 }
 
 export interface ILog extends Document {
