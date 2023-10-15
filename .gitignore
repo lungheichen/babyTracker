@@ -2,3 +2,4 @@ node_modules/
 build/
 babytrackerlog.csv
 *.zip
+.env
