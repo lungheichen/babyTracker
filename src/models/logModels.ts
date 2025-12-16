@@ -21,20 +21,13 @@ if (process.env.NODE_ENV === 'production') {
   options.dbName = process.env.DB_NAME
   // options.host = process.env.DB_HOST
   // options.port = process.env.DB_PORT
-  uri = `mongodb+srv://${options.user}:${options.pass}@cluster0.vsohc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+  uri = `mongodb+srv://${options.user}:${options.pass}@cluster0.ow7t4g1.mongodb.net/?appName=Cluster0`
 } else if (process.env.NODE_ENV === 'development') {
-  options.user = process.env.DB_USER
-  options.pass = process.env.DB_PASS
-  options.dbName = process.env.DB_NAME
-  // uri = 'mongodb://btadmin:admin@baby_tracker-db:27017/babytracker?authSource=admin'
-  uri = 'mongodb://btadmin:admin@db:27017/babytracker?authSource=admin'
+  // db:27017 must be used between Docker containers
+  uri = 'mongodb://superadmin:admin@db:27017/babytracker?authSource=admin'
 } else if (process.env.NODE_ENV === 'devlocal') {
-  // this is for non-containerized local development
-  // options.user = process.env.DB_USER
-  // options.pass = process.env.DB_PASS
-  // options.dbName = process.env.DB_NAME
-  // uri = 'mongodb://btadmin:admin@baby_tracker-db:27017/babytracker?authSource=admin'
-  uri = 'mongodb://btadmin:admin@localhost:27017/babytracker?authSource=admin' 
+  // this is for development w/o Docker containers
+  uri = 'mongodb://superadmin:admin@localhost:27017/babytracker?authSource=admin'
 }
 
 export interface ILog extends Document {
@@ -52,11 +45,14 @@ const logSchema = new Schema<ILog>({
 })
 
 const Log = model<ILog>('Log', logSchema)
-
-main().catch((err) => console.log(err))
-
 async function main(): Promise<void> {
   await connect(uri, options)
+}
+
+// Only auto-connect when not running tests. Tests use their own in-memory
+// MongoDB and call mongoose.connect() from `tests/setup.ts`.
+if (process.env.NODE_ENV !== 'test') {
+  main().catch((err) => console.log(err))
 }
 
 export default Log

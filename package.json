@@ -6,7 +6,7 @@
   "scripts": {
     "prod": "node ./build/index.js",
     "cli": "ts-node src/cli.ts",
-    "test": "jest",
+    "test": "NODE_ENV=test vitest run",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist build",
@@ -22,6 +22,8 @@
   "author": "Lung Chen",
   "license": "ISC",
   "devDependencies": {
+    "@types/mongoose": "^5.11.96",
+    "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
     "eslint": "^7.32.0",
@@ -32,11 +34,14 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.2.0",
     "jest": "^27.4.5",
+    "mongodb-memory-server": "^10.4.1",
     "nodemon": "^2.0.15",
     "prettier": "2.5.1",
+    "supertest": "^7.1.4",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "@types/express": "^4.17.13",
