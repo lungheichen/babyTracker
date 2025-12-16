@@ -22,7 +22,19 @@ logController.getLogs = (req: Request, res: Response, next: NextFunction) => {
 }
 
 logController.getDayLogs = (req: Request, res: Response, next: NextFunction) => {
-  const day: String = req.params.day
+  const today = new Date()
+  const dayParam: String = req.params.day
+  let day: String
+
+  if (dayParam === 'today') {
+    day = today.toDateString()
+  } else if (dayParam === 'yesterday') {
+    const yesterday = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+    day = yesterday.toDateString()
+  } else {
+    day = dayParam
+  }
   Log.find({ day: day }, null, (err: Error, logs: Query<any, Document<ILog>>) => {
     if (err) {
       // Check this again

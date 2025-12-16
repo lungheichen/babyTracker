@@ -1,22 +1,22 @@
 version: '3.9'
 
 services:
-  dev:
+  test:
     depends_on: 
-      - db
+      - db-test
     image: phosphorgus/bt-dev
-    container_name: baby_tracker-dev
+    container_name: baby_tracker-test
     ports:
       - 3000:3000
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=test
     volumes:
       - .:/app
       - node_modules:/app/node_modules
-    command: npm run dev
-  db:
+    command: npm run test
+  db-test:
     image: phosphorgus/bt-db
-    container_name: baby_tracker-db
+    container_name: baby_tracker-db-test
     environment:
       MONGO_INITDB_ROOT_USERNAME: superadmin
       MONGO_INITDB_ROOT_PASSWORD: admin
@@ -24,10 +24,10 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongodb:/data/db
-      - mongodb_config:/data/configdb
+      - test-mongodb:/data/db
+      - test-mongodb_config:/data/configdb
       
 volumes:
   node_modules:
-  mongodb:
-  mongodb_config:
+  test-mongodb:
+  test-mongodb_config:
