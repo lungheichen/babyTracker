@@ -1,0 +1,34 @@
+name: Vitest CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+  # Optional: Also run on pushes to the branch for immediate feedback
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test:
+    # Give the job a distinct name, e.g., 'API Tests', which you'll use later
+    name: API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.20.8' # Use your desired Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Vitest tests and collect coverage
+        # The exit code of this command determines the job status
+        run: npm run test
