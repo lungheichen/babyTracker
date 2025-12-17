@@ -52,7 +52,7 @@ logValidation.gotLog = (req: Request, res: Response, next: NextFunction) => {
     //     log: 'logValidation.gotLog: ERROR: No log - Expected res.locals.log to be of length 1.',
     //     error: { err: 'logValidation.gotLog: ERROR: Check server logs for details' }
     //   })
-  } else if (res.locals.log === {}) {
+  } else if (Object.keys(res.locals.log).length === 0) {
     return next({
       log: 'logValidation.gotLog: ERROR: No log - Expected res.locals.log to not be empty',
       error: { err: 'logValidation.gotLog: ERROR: Check server logs for details' }
