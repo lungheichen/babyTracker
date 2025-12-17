@@ -45,14 +45,11 @@ const logSchema = new Schema<ILog>({
 })
 
 const Log = model<ILog>('Log', logSchema)
+
+main().catch((err) => console.log(err))
+
 async function main(): Promise<void> {
   await connect(uri, options)
-}
-
-// Only auto-connect when not running tests. Tests use their own in-memory
-// MongoDB and call mongoose.connect() from `tests/setup.ts`.
-if (process.env.NODE_ENV !== 'test') {
-  main().catch((err) => console.log(err))
 }
 
 export default Log

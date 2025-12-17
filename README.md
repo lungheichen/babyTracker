@@ -113,6 +113,14 @@ db.createUser(
 Then run the following command:  
 mongosh 'mongodb://superadmin:admin@localhost:27017/babytracker?authSource=admin'
 
+### Docker Compose (Test)
+
+This has been updated for docker compose:  
+`docker compose -f docker-compose-test.yml up`
+
+Stop the containers with:  
+`docker compose -f docker-compose-test.yml down`
+
 ## Troubleshooting
 
 If your local mongod instance is failing to run, then try to remove the
@@ -125,8 +133,18 @@ sudo rm /var/lib/mongodb/mongod.lock
 After updating package.json and stopping docker services, run the following
 commands (example is for bt-dev):
 
-docker-compose run --rm --service-ports bash npm install --save
+docker-compose run --rm --service-ports bash npm install --save (or --save-dev) [package_name]
+e.g.,  
+docker-compose run --rm --service-ports bash npm install --save-dev @types/mongoose
 
 docker image rm phosphorgus/bt-dev --force
 
 docker build -t phosphorgus/bt-dev -f Dockerfile-dev .
+
+## Pushing Docker Images to Hub
+
+docker push phosphorgus/bt-db
+
+docker push phosphorgus/bt-dev
+
+docker push phosphorgus/bt-prod

@@ -1,19 +1,20 @@
-version: '3.9'
-
 services:
   dev:
-    depends_on: 
-      - db
     image: phosphorgus/bt-dev
     container_name: baby_tracker-dev
+    working_dir: /app
+    depends_on:
+      - db
     ports:
       - 3000:3000
     environment:
-      - NODE_ENV=development
+      NODE_ENV: development
     volumes:
-      - .:/app
+      - .:/app:cached
       - node_modules:/app/node_modules
     command: npm run dev
+    restart: "no"
+
   db:
     image: phosphorgus/bt-db
     container_name: baby_tracker-db
@@ -26,8 +27,9 @@ services:
     volumes:
       - mongodb:/data/db
       - mongodb_config:/data/configdb
-      
+    restart: unless-stopped
+
 volumes:
-  node_modules:
-  mongodb:
-  mongodb_config:
+  node_modules: {}
+  mongodb: {}
+  mongodb_config: {}
