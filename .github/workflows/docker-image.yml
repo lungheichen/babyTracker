@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build -t phosphorgus/bt-dev -f Dockerfile-dev . --tag my-image-name:$(date +%s)
+
+    - name: Build the Docker db
+      run: docker build -t phosphorgus/bt-db -f Dockerfile-mongo . --tag my-image-name:$(date +%s)
+
+    - name: start both with docker-compose and test
+      run: docker-compose -f docker-compose-test.yml up
